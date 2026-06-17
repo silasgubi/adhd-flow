@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#0a0a0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="TDAH Daily">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>TDAH Daily</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0a0a0f;
+    color: #e2e8f0;
+    min-height: 100vh;
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: env(safe-area-inset-top);
+    overflow-x: hidden;
+  }
+
+  /* HEADER */
+  .header {
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #1e293b;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+  }
+
+  .header-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
+
+  .stuck-btn {
+    background: #450a0a;
+    color: #fca5a5;
+    border: 1px solid #7f1d1d;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .stuck-btn:active { transform: scale(0.95); background: #7f1d1d; }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    background: #060b14;
+    border-bottom: 1px solid #1e293b;
+    overflow-x: auto;
+    position: sticky;
+    top: 56px;
+    z-index: 90;
+  }
+
+  .tab {
+    flex: 1;
+    min-width: 80px;
+    padding: 10px 12px;
+    background: transparent;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    color: #64748b;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .tab.active {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-color: #334155;
+  }
+
+  /* CONTAINER */
+  .container {
+    padding: 20px 16px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.2s; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MANTRA */
+  .mantra {
+    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+    border: 1px solid #312e81;
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .mantra::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 12px;
+    font-size: 6rem;
+    color: #312e81;
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .mantra-text {
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    line-height: 1.35;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HIERARCHY BAR */
+  .hierarchy {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 24px;
+    padding: 12px;
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+  }
+
+  .h-item {
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    border-radius: 6px;
+    font-size: 0.65rem;
+    font-weight: 600;
+  }
+
+  .h-1 { background: rgba(74,222,128,0.1); color: #4ade80; }
+  .h-2 { background: rgba(167,139,250,0.1); color: #a78bfa; }
+  .h-3 { background: rgba(96,165,250,0.1); color: #60a5fa; }
+  .h-4 { background: rgba(250,204,21,0.1); color: #facc15; }
+  .h-5 { background: rgba(148,163,184,0.1); color: #94a3b8; }
+
+  .h-emoji { display: block; font-size: 1.2rem; margin-bottom: 2px; }
+
+  /* SECTION */
+  .section {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #64748b;
+    margin-bottom: 14px;
+  }
+
+  /* CHECKLIST */
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #475569;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+  }
+
+  .check-box.checked {
+    background: #4ade80;
+    border-color: #4ade80;
+  }
+
+  .check-box.checked::after {
+    content: '✓';
+    color: #0a0a0f;
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+
+  .check-text {
+    font-size: 0.95rem;
+    color: #cbd5e1;
+    flex: 1;
+  }
+
+  .check-item.checked .check-text {
+    color: #475569;
+    text-decoration: line-through;
+  }
+
+  /* POMODORO */
+  .pomodoro {
+    text-align: center;
+  }
+
+  .timer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin: 12px 0 20px;
+    letter-spacing: -2px;
+  }
+
+  .timer.running { color: #4ade80; }
+  .timer.paused { color: #facc15; }
+
+  .timer-controls {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .timer-btn {
+    padding: 12px 24px;
+    border-radius: 10px;
+    border: 1px solid #1e293b;
+    background: #0a0a0f;
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    min-width: 100px;
+  }
+
+  .timer-btn.primary {
+    background: #4ade80;
+    color: #0a0a0f;
+    border-color: #4ade80;
+  }
+
+  .timer-btn:active { transform: scale(0.95); }
+
+  .timer-mode {
+    display: inline-block;
+    padding: 4px 10px;
+    background: rgba(96,165,250,0.1);
+    color: #60a5fa;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-top: 8px;
+  }
+
+  /* ACTION BUTTONS */
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .action-btn {
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #1e293b;
+    background: #060b14;
+    color: #60a5fa;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+  }
+
+  .action-btn:active { transform: scale(0.97); border-color: #60a5fa; }
+
+  /* SISTEMA — flow */
+  .flow-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .flow-step {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #060b14;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+  }
+
+  .flow-num {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #1e293b;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+
+  .flow-body { flex: 1; }
+  .flow-title { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; }
+  .flow-sub { font-size: 0.75rem; color: #64748b; margin-top: 2px; }
+
+  /* DECISOR */
+  .decisor-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: #060b14;
+    border: 1px solid #1e293b;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    margin-bottom: 6px;
+  }
+  .decisor-q { color: #94a3b8; flex: 1; }
+  .decisor-a { font-weight: 600; }
+
+  /* CARD ferramenta */
+  .tool-card {
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .tool-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .tool-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .tool-title { font-weight: 700; color: #f1f5f9; font-size: 0.95rem; }
+  .tool-sub { font-size: 0.7rem; color: #64748b; }
+
+  .tool-list {
+    list-style: none;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+  }
+
+  .tool-list li {
+    padding: 3px 0;
+    padding-left: 14px;
+    position: relative;
+  }
+
+  .tool-list li::before {
+    content: '›';
+    position: absolute;
+    left: 4px;
+    color: #475569;
+    font-weight: 700;
+  }
+
+  /* ATALHO */
+  .atalho {
+    background: #060b14;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .atalho-cmd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #60a5fa;
+  }
+
+  .atalho-desc {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    margin: 4px 0;
+  }
+
+  .atalho-url {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: #475569;
+    margin-bottom: 6px;
+  }
+
+  .atalho-prompt {
+    background: #020609;
+    border: 1px solid #1e293b;
+    border-radius: 6px;
+    padding: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    cursor: pointer;
+    user-select: all;
+    margin-top: 6px;
+  }
+
+  .atalho-prompt:active { border-color: #60a5fa; }
+
+  /* MANUAL */
+  .manual-section {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 14px;
+  }
+
+  .manual-h {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1e293b;
+  }
+
+  .manual-sub {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #facc15;
+    margin-top: 14px;
+    margin-bottom: 6px;
+  }
+
+  .manual-section p, .manual-section li {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+
+  .manual-section ul { padding-left: 18px; }
+
+  /* MANTRAS GRID */
+  .mantras-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mantra-card {
+    background: #0f172a;
+    border: 1px solid #1e293b;
+    border-left: 3px solid #a78bfa;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 0.95rem;
+    color: #e2e8f0;
+    font-weight: 500;
+  }
+
+  /* MODAL TRAVADO */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: #0f172a;
+    border: 1px solid #7f1d1d;
+    border-radius: 16px;
+    padding: 24px;
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fca5a5;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .modal-step {
+    background: #060b14;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 14px;
+    margin-bottom: 10px;
+  }
+
+  .modal-step-num {
+    font-weight: 800;
+    color: #fca5a5;
+    margin-bottom: 4px;
+  }
+
+  .modal-step-title {
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 4px;
+  }
+
+  .modal-step-desc {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    line-height: 1.45;
+  }
+
+  .modal-close {
+    margin-top: 14px;
+    width: 100%;
+    padding: 12px;
+    background: #1e293b;
+    border: none;
+    border-radius: 10px;
+    color: #cbd5e1;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #1e293b;
+    color: #f1f5f9;
+    padding: 12px 20px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    opacity: 0;
+    transition: all 0.3s;
+    z-index: 999;
+  }
+
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-title">🧠 TDAH Daily</div>
+  <button class="stuck-btn" onclick="openStuck()">🆘 Travado</button>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" onclick="showTab('hoje', this)">🌅 Hoje</button>
+  <button class="tab" onclick="showTab('sistema', this)">⚙️ Sistema</button>
+  <button class="tab" onclick="showTab('manual', this)">📖 Manual</button>
+  <button class="tab" onclick="showTab('mantras', this)">💪 Mantras</button>
+</nav>
+
+<main class="container">
+
+  <!-- HOJE -->
+  <section id="hoje" class="tab-content active">
+
+    <div class="mantra">
+      <div class="mantra-text" id="mantraDoDia">Carregando...</div>
+    </div>
+
+    <div class="hierarchy">
+      <div class="h-item h-1"><span class="h-emoji">🏃</span>Saúde</div>
+      <div class="h-item h-2"><span class="h-emoji">👨‍👩‍👧</span>Família</div>
+      <div class="h-item h-3"><span class="h-emoji">💼</span>Trabalho</div>
+      <div class="h-item h-4"><span class="h-emoji">🏛️</span>Admin</div>
+      <div class="h-item h-5"><span class="h-emoji">🎮</span>Hobbies</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">✓ Checklist Manhã</div>
+      <div id="checklist"></div>
+    </div>
+
+    <div class="section pomodoro">
+      <div class="section-title">🍅 Pomodoro</div>
+      <div class="timer" id="timer">45:00</div>
+      <div class="timer-controls">
+        <button class="timer-btn primary" id="timerStart" onclick="startTimer()">▶ Start</button>
+        <button class="timer-btn" onclick="resetTimer()">Reset</button>
+      </div>
+      <div class="timer-mode" id="timerMode">Foco 45min</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">⚡ Ação Rápida</div>
+      <div class="actions">
+        <a href="https://tasks.google.com/tasks/" class="action-btn" target="_blank">📋 Google Tasks</a>
+        <a href="https://calendar.google.com" class="action-btn" target="_blank">📅 Calendar</a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- SISTEMA -->
+  <section id="sistema" class="tab-content">
+
+    <div class="section">
+      <div class="section-title">⚡ Fluxo do Dia</div>
+      <div class="flow-card">
+        <div class="flow-step">
+          <div class="flow-num">1</div>
+          <div class="flow-body">
+            <div class="flow-title">📱 Google Keep</div>
+            <div class="flow-sub">Capturar ideias instantâneas no celular</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">2</div>
+          <div class="flow-body">
+            <div class="flow-title">✅ Google Tasks</div>
+            <div class="flow-sub">Organizar todas as tarefas (com ou sem prazo)</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">3</div>
+          <div class="flow-body">
+            <div class="flow-title">🌐 Chrome /planeja-dia</div>
+            <div class="flow-sub">Claude lê Tasks, prioriza e monta plano</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">4</div>
+          <div class="flow-body">
+            <div class="flow-title">📅 Google Calendar</div>
+            <div class="flow-sub">Blocos de foco do dia confirmados</div>
+          </div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-num">5</div>
+          <div class="flow-body">
+            <div class="flow-title">🍅 Executar</div>
+            <div class="flow-sub">Pomodoro 45min, uma coisa por vez</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">🤔 O que preciso? → Use isso</div>
+      <div class="decisor-item"><span class="decisor-q">Planejar o dia</span><span class="decisor-a" style="color:#60a5fa">/planeja-dia</span></div>
+      <div class="decisor-item"><span class="decisor-q">Estou travado</span><span class="decisor-a" style="color:#60a5fa">/travado</span></div>
+      <div class="decisor-item"><span class="decisor-q">Agendar compromisso</span><span class="decisor-a" style="color:#a78bfa">claude.ai</span></div>
+      <div class="decisor-item"><span class="decisor-q">Compromisso da Silvana</span><span class="decisor-a" style="color:#a78bfa">claude.ai</span></div>
+      <div class="decisor-item"><span class="decisor-q">Ideia rápida no celular</span><span class="decisor-a" style="color:#facc15">Google Keep</span></div>
+      <div class="decisor-item"><span class="decisor-q">Qualquer tarefa</span><span class="decisor-a" style="color:#4ade80">Google Tasks</span></div>
+      <div class="decisor-item"><span class="decisor-q">Dia desandou</span><span class="decisor-a" style="color:#60a5fa">/reorganiza</span></div>
+      <div class="decisor-item"><span class="decisor-q">Tarefa rápida agora</span><span class="decisor-a" style="color:#60a5fa">/quick-win</span></div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">📦 Ferramentas</div>
+
+      <div class="tool-card" style="background:#120d00; border-color:#422006">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(250,204,21,0.15)">💡</div>
+          <div><div class="tool-title">Google Keep</div><div class="tool-sub">captura rápida</div></div>
+        </div>
+        <ul class="tool-list">
+          <li>Ideias que surgem fora do computador</li>
+          <li>Notas rápidas por voz ou texto</li>
+          <li>Inbox antes de organizar no Tasks</li>
+        </ul>
+      </div>
+
+      <div class="tool-card" style="background:#021a0d; border-color:#052e16">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(74,222,128,0.15)">✅</div>
+          <div><div class="tool-title">Google Tasks</div><div class="tool-sub">sistema único de tarefas</div></div>
+        </div>
+        <ul class="tool-list">
+          <li>Todas as tarefas com ou sem prazo</li>
+          <li>Lido pelo Claude in Chrome</li>
+          <li>Base do planejamento diário</li>
+        </ul>
+      </div>
+
+      <div class="tool-card" style="background:#120606; border-color:#450a0a">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(248,113,113,0.15)">📅</div>
+          <div><div class="tool-title">Google Calendar</div><div class="tool-sub">o que farei hoje</div></div>
+        </div>
+        <ul class="tool-list">
+          <li>Blocos de foco do dia</li>
+          <li>Compromissos com data e hora</li>
+          <li>Calendário Silvana 👵 (mãe)</li>
+        </ul>
+      </div>
+
+      <div class="tool-card" style="background:#090f1a; border-color:#172554">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:rgba(96,165,250,0.15)">🌐</div>
+          <div><div class="tool-title">Claude in Chrome</div><div class="tool-sub">planejamento diário</div></div>
+        </div>
+        <ul class="tool-list">
+          <li>Atalhos /comando para planejar</li>
+          <li>Lê Google Tasks automaticamente</li>
+          <li>Sugere a melhor tarefa do momento</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="section">
+      <div class="section-title">⌨️ Atalhos Chrome</div>
+
+      <div class="atalho">
+        <div class="atalho-cmd">/planeja-dia</div>
+        <div class="atalho-desc">Lê Tasks → monta plano → confirma Calendar</div>
+        <div class="atalho-url">Começar de: https://tasks.google.com/tasks/</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Ativa tdah-productivity-manager.
+Lê todas as minhas tarefas do Google Tasks na página atual.
+Pergunta meu nível de energia e monta o plano do dia com blocos de 45min.
+Aguarda minha confirmação antes de criar qualquer evento no Calendar.</div>
+      </div>
+
+      <div class="atalho">
+        <div class="atalho-cmd">/travado</div>
+        <div class="atalho-desc">Protocolo desbloqueio — 3 opções</div>
+        <div class="atalho-url">Começar de: (vazio)</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Estou travado e não consigo começar.
+Ativa o protocolo de desbloqueio da skill tdah-productivity-manager.
+Apresenta as 3 opções e pergunta qual quero tentar agora.</div>
+      </div>
+
+      <div class="atalho">
+        <div class="atalho-cmd">/prioriza</div>
+        <div class="atalho-desc">Eisenhower sem criar eventos</div>
+        <div class="atalho-url">Começar de: https://tasks.google.com/tasks/</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Ativa tdah-productivity-manager.
+Lê minhas tarefas do Google Tasks na página atual.
+Classifica cada uma na Matriz de Eisenhower.
+Pergunta meu nível de energia atual e indica qual fazer primeiro.
+Não cria eventos no Calendar — só prioriza.</div>
+      </div>
+
+      <div class="atalho">
+        <div class="atalho-cmd">/reorganiza</div>
+        <div class="atalho-desc">Re-planning para horas restantes</div>
+        <div class="atalho-url">Começar de: https://tasks.google.com/tasks/</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Meu dia desandou. Ativa tdah-productivity-manager.
+Lê minhas tarefas do Google Tasks na página atual.
+Pergunta o que já foi feito hoje e qual o horário atual.
+Monta novo plano para as horas restantes considerando minha energia agora.
+Confirma antes de atualizar o Calendar.</div>
+      </div>
+
+      <div class="atalho">
+        <div class="atalho-cmd">/quick-win</div>
+        <div class="atalho-desc">Tarefa mais rápida para gerar momentum</div>
+        <div class="atalho-url">Começar de: https://tasks.google.com/tasks/</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Ativa tdah-productivity-manager.
+Lê minhas tarefas do Google Tasks na página atual.
+Identifica a tarefa mais rápida (menos de 30min) que posso completar agora para gerar momentum.
+Apresenta só essa tarefa com o escopo exato do que fazer.</div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- MANUAL -->
+  <section id="manual" class="tab-content">
+
+    <div class="manual-section">
+      <div class="manual-h">🎯 Regra de Ouro</div>
+      <p><strong>TDAH = déficit dopamina = difícil manter motivação</strong></p>
+      <p style="margin-top:8px">Solução: <strong>Quick wins → dopamina → motivação → continuar</strong></p>
+    </div>
+
+    <div class="manual-section">
+      <div class="manual-h">⚡ Estratégias Essenciais</div>
+
+      <div class="manual-sub">1. Dopamina Hacking</div>
+      <ul>
+        <li>Quick wins primeiro: começar por tarefas fáceis</li>
+        <li>Comemorar fisicamente ao terminar</li>
+        <li>Usar timer visível e tracking de progresso</li>
+      </ul>
+
+      <div class="manual-sub">2. Ambiente Anti-Distração</div>
+      <ul>
+        <li>Fechar todas as abas desnecessárias</li>
+        <li>Água + café + snack preparados</li>
+        <li>Celular modo avião ou outra sala</li>
+        <li>Timer 45min = contrato consigo mesmo</li>
+      </ul>
+
+      <div class="manual-sub">3. Gestão de Energia</div>
+      <ul>
+        <li>Melhor horário = tarefas difíceis</li>
+        <li>Cansado = tarefas mecânicas/fáceis</li>
+        <li>Forçar = contraproducente</li>
+        <li>45min trabalho → 10min pausa real (não scrollar)</li>
+      </ul>
+
+      <div class="manual-sub">4. Inbox Zero (GTD)</div>
+      <ul>
+        <li>Capturar tudo no Keep ou Tasks</li>
+        <li>Esvaziar cabeça = liberar RAM mental</li>
+        <li>Processar diariamente, máx 20 itens acumulados</li>
+      </ul>
+    </div>
+
+    <div class="manual-section">
+      <div class="manual-h">⚠️ Armadilhas TDAH</div>
+      <ul>
+        <li><strong>Perfeccionismo paralisa</strong> → Feito > Perfeito. MVP sempre.</li>
+        <li><strong>Multitarefa = ilusão</strong> → 1 coisa por vez. Sempre.</li>
+        <li><strong>"Só mais 5min" scrolling</strong> → Timer rígido</li>
+        <li><strong>Overcommit por entusiasmo</strong> → Planejar 50% menos</li>
+        <li><strong>Culpa por não fazer</strong> → Gasta energia. Recalibrar e seguir.</li>
+      </ul>
+    </div>
+
+    <div class="manual-section">
+      <div class="manual-h">🌙 Rotinas</div>
+
+      <div class="manual-sub">Toda Manhã (5-10min)</div>
+      <ul>
+        <li>Exercício primeiro (inegociável)</li>
+        <li>Abrir Google Tasks → escolher 1 projeto</li>
+        <li>Preparar ambiente, timer 45min, começar</li>
+      </ul>
+
+      <div class="manual-sub">Toda Noite (5min)</div>
+      <ul>
+        <li>Processar inbox do Tasks (2min/item)</li>
+        <li>Planejar amanhã: escolher 1 projeto</li>
+        <li>Marcar vitórias do dia (comemorar!)</li>
+      </ul>
+
+      <div class="manual-sub">Toda Semana (Domingo 30min)</div>
+      <ul>
+        <li>Revisão: o que funcionou? o que travou?</li>
+        <li>Próxima semana: quais projetos focar?</li>
+        <li>Limpar listas, arquivar completos</li>
+      </ul>
+    </div>
+
+  </section>
+
+  <!-- MANTRAS -->
+  <section id="mantras" class="tab-content">
+    <div class="mantras-grid" id="mantrasGrid"></div>
+  </section>
+
+</main>
+
+<!-- MODAL TRAVADO -->
+<div class="modal-overlay" id="stuckModal" onclick="if(event.target===this)closeStuck()">
+  <div class="modal">
+    <div class="modal-title">🆘 Protocolo Desbloqueio</div>
+
+    <div class="modal-step">
+      <div class="modal-step-num">1.</div>
+      <div class="modal-step-title">Menor ação possível</div>
+      <div class="modal-step-desc">"Só abrir o arquivo" ou "Só ler 1 parágrafo". Timer 5min. Só isso.</div>
+    </div>
+
+    <div class="modal-step">
+      <div class="modal-step-num">2.</div>
+      <div class="modal-step-title">Mudar contexto</div>
+      <div class="modal-step-desc">Outro cômodo, em pé, ou exercício 10min para resetar dopamina.</div>
+    </div>
+
+    <div class="modal-step">
+      <div class="modal-step-num">3.</div>
+      <div class="modal-step-title">Aceitar e reagendar</div>
+      <div class="modal-step-desc">Hoje não foi o dia. Mover sem culpa. Escolher quick win menor.</div>
+    </div>
+
+    <button class="modal-close" onclick="closeStuck()">Fechar</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">Copiado!</div>
+
+<script>
+// ============ MANTRAS ============
+const MANTRAS = [
+  "Começar mal > não começar",
+  "45min. Só isso. Depois pauso.",
+  "Quick win = dopamina = próximo passo",
+  "Meu cérebro é diferente, meu sistema também",
+  "Feito > Perfeito",
+  "Você TEM TDAH, não É TDAH",
+  "MVP hoje. Refino amanhã.",
+  "Versão 1 feia > versão 10 imaginada",
+  "80% pronto e entregue > 100% perfeito e parado",
+  "Uma coisa. Só uma. Agora.",
+  "Foco não é força de vontade, é design do ambiente",
+  "Abas fechadas = cabeça fechada",
+  "Energia baixa não é preguiça, é dado",
+  "Culpa gasta energia que poderia ser execução",
+  "Descansar é parte do plano, não fuga dele",
+  "Hoje não foi o dia. Amanhã eu volto.",
+  "Confie no sistema, não na memória",
+  "Capturar agora, decidir depois",
+  "O calendário sabe mais do que minha cabeça",
+  "Saúde primeiro. Sempre."
+];
+
+// Frase aleatória a cada abertura
+function setMantra() {
+  const idx = Math.floor(Math.random() * MANTRAS.length);
+  document.getElementById('mantraDoDia').textContent = MANTRAS[idx];
+}
+
+// Renderiza todas
+function renderMantras() {
+  const grid = document.getElementById('mantrasGrid');
+  grid.innerHTML = MANTRAS.map(m => `<div class="mantra-card">${m}</div>`).join('');
+}
+
+// ============ CHECKLIST ============
+const CHECKLIST = [
+  "Exercício (inegociável)",
+  "Abrir Google Tasks",
+  "Escolher 1 projeto / tarefa",
+  "Fechar abas desnecessárias",
+  "Água + café preparados",
+  "Celular silencioso/longe",
+  "Timer 45min configurado",
+  "Começar (sem pensar muito)"
+];
+
+function getCheckKey() {
+  const d = new Date();
+  return `check_${d.getFullYear()}${d.getMonth()}${d.getDate()}`;
+}
+
+function renderChecklist() {
+  const key = getCheckKey();
+  const saved = JSON.parse(localStorage.getItem(key) || '{}');
+  const container = document.getElementById('checklist');
+  container.innerHTML = CHECKLIST.map((item, i) => {
+    const checked = saved[i] ? 'checked' : '';
+    return `
+      <div class="check-item ${checked}" onclick="toggleCheck(${i})">
+        <div class="check-box ${checked}"></div>
+        <div class="check-text">${item}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function toggleCheck(i) {
+  const key = getCheckKey();
+  const saved = JSON.parse(localStorage.getItem(key) || '{}');
+  saved[i] = !saved[i];
+  localStorage.setItem(key, JSON.stringify(saved));
+  cleanOldChecklists();
+  renderChecklist();
+}
+
+function cleanOldChecklists() {
+  const todayKey = getCheckKey();
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k && k.startsWith('check_') && k !== todayKey) {
+      localStorage.removeItem(k);
+    }
+  }
+}
+
+// ============ POMODORO ============
+let timerSeconds = 45 * 60;
+let timerInterval = null;
+let timerMode = 'focus'; // focus | break
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+}
+
+function updateTimerDisplay() {
+  document.getElementById('timer').textContent = formatTime(timerSeconds);
+}
+
+function startTimer() {
+  const btn = document.getElementById('timerStart');
+  const display = document.getElementById('timer');
+
+  if (timerInterval) {
+    // Pausar
+    clearInterval(timerInterval);
+    timerInterval = null;
+    btn.textContent = '▶ Retomar';
+    display.classList.remove('running');
+    display.classList.add('paused');
+    return;
+  }
+
+  // Iniciar
+  btn.textContent = '⏸ Pausar';
+  display.classList.add('running');
+  display.classList.remove('paused');
+
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    updateTimerDisplay();
+    if (timerSeconds <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      timerDone();
+    }
+  }, 1000);
+}
+
+function timerDone() {
+  // Alerta sonoro
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 880;
+    gain.gain.value = 0.3;
+    osc.start();
+    setTimeout(() => osc.stop(), 600);
+  } catch(e) {}
+
+  if (timerMode === 'focus') {
+    timerMode = 'break';
+    timerSeconds = 10 * 60;
+    document.getElementById('timerMode').textContent = 'Pausa 10min';
+    document.getElementById('timerMode').style.background = 'rgba(74,222,128,0.1)';
+    document.getElementById('timerMode').style.color = '#4ade80';
+    showToast('🎉 Foco completo! Hora da pausa.');
+  } else {
+    timerMode = 'focus';
+    timerSeconds = 45 * 60;
+    document.getElementById('timerMode').textContent = 'Foco 45min';
+    document.getElementById('timerMode').style.background = 'rgba(96,165,250,0.1)';
+    document.getElementById('timerMode').style.color = '#60a5fa';
+    showToast('💪 Pausa acabou. Próximo bloco!');
+  }
+  updateTimerDisplay();
+  document.getElementById('timerStart').textContent = '▶ Start';
+  document.getElementById('timer').classList.remove('running', 'paused');
+}
+
+function resetTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+    timerInterval = null;
+  }
+  timerSeconds = timerMode === 'focus' ? 45 * 60 : 10 * 60;
+  updateTimerDisplay();
+  document.getElementById('timerStart').textContent = '▶ Start';
+  document.getElementById('timer').classList.remove('running', 'paused');
+}
+
+// ============ TABS ============
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// ============ MODAL ============
+function openStuck() {
+  document.getElementById('stuckModal').classList.add('active');
+}
+function closeStuck() {
+  document.getElementById('stuckModal').classList.remove('active');
+}
+
+// ============ COPY ============
+function copyText(el) {
+  navigator.clipboard.writeText(el.textContent).then(() => {
+    showToast('✓ Prompt copiado!');
+  }).catch(() => {
+    // Fallback: seleciona texto
+    const range = document.createRange();
+    range.selectNode(el);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    showToast('✓ Selecionado — Ctrl+C');
+  });
+}
+
+// ============ TOAST ============
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ============ INIT ============
+setMantra();
+renderMantras();
+renderChecklist();
+updateTimerDisplay();
+cleanOldChecklists();
+
+// PWA service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
