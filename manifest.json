@@ -1,7 +1,7 @@
 {
-  "name": "TDAH Daily",
-  "short_name": "TDAH",
-  "description": "Sistema diário de produtividade TDAH-friendly",
+  "name": "ADHD Flow",
+  "short_name": "ADHD Flow",
+  "description": "ADHD-friendly daily productivity system",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#0a0a0f",

@@ -1,142 +1,136 @@
-# 🧠 TDAH Daily
+# 🧠 ADHD Flow
 
-Sistema diário de produtividade pessoal pensado para pessoas com TDAH, integrado ao ecossistema Google e ao Claude (IA da Anthropic).
+**EN:** An ADHD-friendly daily productivity PWA integrating Google Keep, Tasks, Calendar and Claude AI.
 
-**Demo:** [Acesse aqui](https://SEU-USUARIO.github.io/tdah-daily/) *(substitua pelo seu link após publicar)*
+**PT:** Um PWA de produtividade diária para TDAH, integrando Google Keep, Tasks, Calendar e o Claude.
 
----
-
-## ✨ O que é
-
-Um PWA (Progressive Web App) que funciona como o "documento de leitura matinal" de quem precisa lembrar diariamente das estratégias TDAH para não cair em armadilhas comuns: perfeccionismo, multitarefa, scrolling, autocrítica.
-
-Substitui anexos no Microsoft To Do, papéis colados na parede, ou notas perdidas no celular.
+**Demo:** [https://SEU-USUARIO.github.io/adhd-flow/](https://SEU-USUARIO.github.io/adhd-flow/)
 
 ---
 
-## 🎯 Por que existe
+## 🇧🇷 Português
 
-Pessoas com TDAH têm déficit de dopamina — o que torna difícil **manter** motivação, mesmo quando há vontade. A solução não é "força de vontade", é **design de sistema**:
+### O que é
 
-- Quick wins primeiro → dopamina → momentum
-- Energia gerencia ordem das tarefas, não urgência
-- 1 coisa por vez, sempre
-- Feito > Perfeito
-- Sistema externo > memória interna
+Sistema de leitura matinal e foco diário pensado para pessoas com TDAH. Substitui qualquer anotação perdida no celular, anexo esquecido no gerenciador de tarefas, ou documento que nunca é aberto.
 
-Este app codifica essas estratégias num formato que dá pra abrir todo dia, em 1 toque, do iPhone.
+Funciona como um **app instalado na tela inicial do iPhone** — 1 toque, abre fullscreen, sem distrações.
 
----
+### Por que existe
 
-## 📱 Features
+Pessoas com TDAH não têm falta de vontade — têm déficit de dopamina. O cérebro precisa de **sistema externo**, não de força de vontade interna. Este app codifica as estratégias no lugar da memória.
+
+### Features
 
 | Feature | O que faz |
 |---------|-----------|
-| **Mantra rotativo** | Frase diferente a cada abertura (20 frases curadas) |
-| **Checklist matinal** | 8 itens com persistência local, reset automático meia-noite |
-| **Pomodoro 45/10** | Timer de foco + pausa com alerta sonoro |
-| **Hierarquia de vida** | Saúde → Família → Trabalho → Admin → Hobbies sempre visível |
-| **Sistema completo** | Fluxo Keep → Tasks → Calendar com atalhos Chrome do Claude |
-| **Manual TDAH** | Estratégias, armadilhas e rotinas diária/semanal |
-| **Mantras (lista)** | 20 frases para momentos de fraqueza |
-| **Botão Travado** | Modal com protocolo de 3 passos para destravar |
-| **PWA offline** | Funciona sem internet após primeiro acesso |
+| **Mantra rotativo** | 1 frase diferente a cada abertura (20 frases) |
+| **Checklist matinal** | Reset automático à meia-noite |
+| **Pomodoro 45/10min** | Timer com alerta sonoro |
+| **Hierarquia de vida** | Saúde → Família → Trabalho → Admin → Hobbies |
+| **Fluxo do sistema** | Keep → Tasks → Claude → Calendar |
+| **Atalhos Claude** | Prompts prontos para copiar no Chrome |
+| **Botão Travado** | Protocolo de 3 passos para destravar |
+| **Offline** | Funciona sem internet após primeiro acesso |
 
----
+### Como instalar no iPhone
 
-## 🏗️ Arquitetura do sistema completo
+1. Abra a URL no **Safari**
+2. Toque em **Compartilhar → Adicionar à Tela de Início**
+3. Pronto — ícone na home, abre como app
 
-Este app é uma das peças. O sistema completo:
+### Arquitetura do sistema completo
 
 ```
-📱 Google Keep         → captura de ideias instantâneas (mobile)
-✅ Google Tasks        → organização única de tarefas
-🌐 Claude in Chrome    → planejamento diário automatizado
-📅 Google Calendar     → blocos de foco do dia
-🧠 TDAH Daily (este)   → leitura matinal + ferramentas de foco
+📱 Google Keep      → captura de ideias instantâneas
+✅ Google Tasks     → sistema único de tarefas
+🌐 Claude Chrome    → planejamento via /planeja-dia
+📅 Google Calendar  → blocos de foco confirmados
+🧠 ADHD Flow       → leitura matinal + foco
 ```
 
-O Claude (com skill `tdah-productivity-manager`) lê o Google Tasks no Chrome, prioriza usando matriz de Eisenhower + nível de energia, e cria blocos de foco no Google Calendar.
+### Personalização
 
-A skill completa do Claude está no repositório [tdah-productivity-manager](#) *(privado)*.
+Edite no `index.html`:
+- `MANTRAS = [...]` — suas frases
+- `CHECKLIST = [...]` — sua rotina matinal
+- Aba "Manual" — suas estratégias
+- Aba "Sistema" — seu fluxo de ferramentas
 
 ---
 
-## 🚀 Como usar
+## 🇺🇸 English
 
-### Online (recomendado)
+### What is it
 
-1. Abra [https://SEU-USUARIO.github.io/tdah-daily/](https://SEU-USUARIO.github.io/tdah-daily/) no Safari (iPhone) ou Chrome
-2. Toque em **Compartilhar → Adicionar à Tela Inicial**
-3. Ícone aparece como app — toque para abrir em fullscreen
+A morning reading and daily focus system designed for people with ADHD. Works as an **installed PWA on your iPhone home screen** — 1 tap, opens fullscreen.
 
-### Local
+Replaces forgotten sticky notes, missed task manager attachments, and documents that never get opened.
 
-```bash
-git clone https://github.com/SEU-USUARIO/tdah-daily.git
-cd tdah-daily
-# Abrir index.html em qualquer navegador
-# Ou servir local: python -m http.server 8000
+### Why it exists
+
+People with ADHD don't lack willpower — they have a dopamine deficit. The brain needs an **external system**, not more internal effort. This app puts strategies where memory fails.
+
+### Features
+
+| Feature | What it does |
+|---------|-------------|
+| **Rotating mantra** | 1 different phrase per session (20 curated) |
+| **Morning checklist** | Auto-reset at midnight |
+| **Pomodoro 45/10min** | Focus timer with audio alert |
+| **Life hierarchy** | Health → Family → Work → Admin → Hobbies |
+| **System flow** | Keep → Tasks → Claude → Calendar |
+| **Claude shortcuts** | Ready-to-copy Chrome extension prompts |
+| **Stuck button** | 3-step unblocking protocol |
+| **Offline** | Works without internet after first load |
+
+### Install on iPhone
+
+1. Open the URL in **Safari**
+2. Tap **Share → Add to Home Screen**
+3. Done — icon on home, opens as an app
+
+### Full system architecture
+
+```
+📱 Google Keep      → quick idea capture
+✅ Google Tasks     → single task system
+🌐 Claude Chrome    → daily planning via /plan-day
+📅 Google Calendar  → confirmed focus blocks
+🧠 ADHD Flow       → morning reading + focus tools
 ```
 
----
+### Customize
 
-## 🎨 Design
-
-- **Mobile-first** — pensado para iPhone primeiro
-- **Dark mode** — único modo (TDAH-friendly: menos estímulo visual)
-- **Tipografia:** Inter (legibilidade) + JetBrains Mono (código)
-- **Cores:** paleta restrita, função define cor (verde = ação, vermelho = atenção, roxo = mantra)
-- **Sem dependências externas** — só CDN do Google Fonts (cacheia offline)
+Edit in `index.html`:
+- `MANTRAS = [...]` — your phrases
+- `CHECKLIST = [...]` — your morning routine
+- "Manual" tab — your ADHD strategies
+- "System" tab — your tool flow
 
 ---
 
-## 🔧 Tecnologia
+## 🛠️ Stack
 
-- HTML/CSS/JS puro — sem build, sem framework
-- Service Worker para offline
-- localStorage para checklist diária
-- Web Audio API para alerta do Pomodoro
-- Web Clipboard API para copiar prompts
+- Vanilla HTML/CSS/JS — no build, no framework
+- Service Worker (offline)
+- localStorage (daily checklist persistence)
+- Web Audio API (Pomodoro alert)
+- Web Clipboard API (copy prompts)
 
-Tudo em **~1 arquivo HTML**. Total: ~20KB.
-
----
-
-## 📋 Personalização
-
-Para adaptar ao seu contexto, edite no `index.html`:
-
-| Variável | O que muda |
-|----------|-----------|
-| `MANTRAS = [...]` | Frases que rotacionam |
-| `CHECKLIST = [...]` | Itens da rotina matinal |
-| `timerSeconds = 45*60` | Duração do Pomodoro |
-| Aba "Sistema" | Suas ferramentas e fluxo |
-| Aba "Manual" | Suas estratégias TDAH |
+Total: **~1 HTML file, ~33KB**
 
 ---
 
-## 🤝 Inspiração e princípios
+## 📄 License / Licença
 
-Construído sobre conceitos de:
-
-- **GTD (Getting Things Done)** — David Allen
-- **Pomodoro Technique** — Francesco Cirillo
-- **Matriz de Eisenhower** — priorização Urgente × Importante
-- **MVP (Minimum Viable Product)** — Eric Ries
-- Pesquisa em TDAH e dopamina (Russell Barkley)
+MIT — use, modify, share freely.
+Se ajudar alguém, missão cumprida. / If it helps someone, mission accomplished.
 
 ---
 
-## 📄 Licença
+## 💜 Para quem chega aqui com TDAH / For those arriving here with ADHD
 
-MIT — use, modifique, compartilhe. Se ajudar alguém, missão cumprida.
+**PT:** Você não é preguiçoso. Não é falta de força de vontade. Seu cérebro funciona diferente — e isso significa que o sistema precisa ser diferente também. Começar mal > não começar.
 
----
-
-## 🙏 Para quem está chegando aqui com TDAH
-
-Você não é preguiçoso. Não falta força de vontade. Seu cérebro funciona diferente, e isso significa que o sistema precisa ser diferente também.
-
-Comece pequeno. **Começar mal > não começar.**
+**EN:** You're not lazy. It's not a lack of willpower. Your brain works differently — which means the system needs to be different too. Starting badly > not starting.
