@@ -289,9 +289,10 @@
       <div class="flow-step">
         <div class="flow-num">3</div>
         <div class="flow-body">
-          <div class="flow-title">🌐 Chrome /planeja-dia</div>
-          <div class="flow-sub pt-only">Claude lê Tasks, prioriza e monta plano</div>
-          <div class="flow-sub en-only">Claude reads Tasks, prioritizes and builds plan</div>
+          <div class="flow-title pt-only">💬 "Planeja meu dia"</div>
+          <div class="flow-title en-only">💬 "Plan my day"</div>
+          <div class="flow-sub pt-only">Claude lê Tasks, prioriza e monta plano (Desktop + Chrome)</div>
+          <div class="flow-sub en-only">Claude reads Tasks, prioritizes and builds plan (Desktop + Chrome)</div>
         </div>
       </div>
       <div class="flow-step">
@@ -316,13 +317,13 @@
       <div class="section-title pt-only">🤔 O que preciso? → Use isso</div>
       <div class="section-title en-only">🤔 What do I need? → Use this</div>
 
-      <div class="decisor-item"><span class="decisor-q pt-only">Planejar o dia</span><span class="decisor-q en-only">Plan my day</span><span class="decisor-a" style="color:#60a5fa">/planeja-dia</span></div>
-      <div class="decisor-item"><span class="decisor-q pt-only">Estou travado</span><span class="decisor-q en-only">I'm stuck</span><span class="decisor-a" style="color:#60a5fa">/travado</span></div>
-      <div class="decisor-item"><span class="decisor-q pt-only">Agendar compromisso</span><span class="decisor-q en-only">Schedule appointment</span><span class="decisor-a" style="color:#a78bfa">claude.ai</span></div>
+      <div class="decisor-item"><span class="decisor-q pt-only">Planejar o dia</span><span class="decisor-q en-only">Plan my day</span><span class="decisor-a" style="color:#a78bfa">"Planeja meu dia"</span></div>
+      <div class="decisor-item"><span class="decisor-q pt-only">Estou travado</span><span class="decisor-q en-only">I'm stuck</span><span class="decisor-a" style="color:#a78bfa">"Estou travado"</span></div>
+      <div class="decisor-item"><span class="decisor-q pt-only">Agendar compromisso</span><span class="decisor-q en-only">Schedule appointment</span><span class="decisor-a" style="color:#a78bfa">claude.ai / Desktop</span></div>
       <div class="decisor-item"><span class="decisor-q pt-only">Ideia rápida</span><span class="decisor-q en-only">Quick idea</span><span class="decisor-a" style="color:#facc15">Google Keep</span></div>
       <div class="decisor-item"><span class="decisor-q pt-only">Qualquer tarefa</span><span class="decisor-q en-only">Any task</span><span class="decisor-a" style="color:#4ade80">Google Tasks</span></div>
-      <div class="decisor-item"><span class="decisor-q pt-only">Dia desandou</span><span class="decisor-q en-only">Day fell apart</span><span class="decisor-a" style="color:#60a5fa">/reorganiza</span></div>
-      <div class="decisor-item"><span class="decisor-q pt-only">Tarefa rápida agora</span><span class="decisor-q en-only">Quick task now</span><span class="decisor-a" style="color:#60a5fa">/quick-win</span></div>
+      <div class="decisor-item"><span class="decisor-q pt-only">Dia desandou</span><span class="decisor-q en-only">Day fell apart</span><span class="decisor-a" style="color:#a78bfa">"Reorganiza meu dia"</span></div>
+      <div class="decisor-item"><span class="decisor-q pt-only">Tarefa rápida agora</span><span class="decisor-q en-only">Quick task now</span><span class="decisor-a" style="color:#a78bfa">"Tarefa rápida agora"</span></div>
     </div>
 
     <div class="section">
@@ -368,74 +369,32 @@
       <div class="tool-card" style="background:#090f1a;border-color:#172554">
         <div class="tool-header">
           <div class="tool-icon" style="background:rgba(96,165,250,0.15)">🌐</div>
-          <div><div class="tool-title">Claude in Chrome</div><div class="tool-sub pt-only">planejamento diário</div><div class="tool-sub en-only">daily planning</div></div>
+          <div><div class="tool-title">Claude Desktop + Chrome</div><div class="tool-sub pt-only">conector unificado</div><div class="tool-sub en-only">unified connector</div></div>
         </div>
         <ul class="tool-list">
-          <li class="pt-only">Atalhos /comando para planejar</li><li class="en-only">/command shortcuts for planning</li>
-          <li class="pt-only">Lê Google Tasks automaticamente</li><li class="en-only">Reads Google Tasks automatically</li>
-          <li class="pt-only">Sugere a melhor tarefa do momento</li><li class="en-only">Suggests the best task for now</li>
+          <li class="pt-only">Uma conversa só: raciocínio + execução</li><li class="en-only">One conversation: reasoning + execution</li>
+          <li class="pt-only">Navega e clica no Tasks de verdade</li><li class="en-only">Actually navigates and clicks in Tasks</li>
+          <li class="pt-only">Habilitar em Conectores → Claude in Chrome</li><li class="en-only">Enable in Connectors → Claude in Chrome</li>
         </ul>
       </div>
     </div>
 
     <div class="section">
-      <div class="section-title pt-only">⌨️ Atalhos Chrome</div>
-      <div class="section-title en-only">⌨️ Chrome Shortcuts</div>
+      <div class="section-title pt-only">💬 Como pedir</div>
+      <div class="section-title en-only">💬 How to ask</div>
 
       <div class="atalho">
-        <div class="atalho-cmd">/planeja-dia</div>
-        <div class="atalho-desc pt-only">Lê Tasks → monta plano → confirma Calendar</div>
-        <div class="atalho-desc en-only">Reads Tasks → builds plan → confirms Calendar</div>
-        <div class="atalho-url">Start from: https://tasks.google.com/tasks/</div>
-        <div class="atalho-prompt" onclick="copyText(this)">Ativa tdah-productivity-manager.
-Lê todas as minhas tarefas do Google Tasks na página atual.
-Pergunta meu nível de energia e monta o plano do dia com blocos de 45min.
-Aguarda minha confirmação antes de criar qualquer evento no Calendar.</div>
+        <div class="atalho-desc pt-only">Numa conversa do Claude Desktop com o conector "Claude in Chrome" habilitado (dropdown Conectores), basta pedir em texto normal:</div>
+        <div class="atalho-desc en-only">In a Claude Desktop conversation with the "Claude in Chrome" connector enabled (Connectors dropdown), just ask in plain text:</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Planeja meu dia</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Estou travado, não consigo começar</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Prioriza minhas tarefas de hoje</div>
+        <div class="atalho-prompt" onclick="copyText(this)">Meu dia desandou, reorganiza</div>
       </div>
 
-      <div class="atalho">
-        <div class="atalho-cmd">/travado</div>
-        <div class="atalho-desc pt-only">Protocolo desbloqueio — 3 opções</div>
-        <div class="atalho-desc en-only">Unblocking protocol — 3 options</div>
-        <div class="atalho-url">Start from: (empty)</div>
-        <div class="atalho-prompt" onclick="copyText(this)">Estou travado e não consigo começar.
-Ativa o protocolo de desbloqueio da skill tdah-productivity-manager.
-Apresenta as 3 opções e pergunta qual quero tentar agora.</div>
-      </div>
-
-      <div class="atalho">
-        <div class="atalho-cmd">/prioriza</div>
-        <div class="atalho-desc pt-only">Eisenhower sem criar eventos</div>
-        <div class="atalho-desc en-only">Eisenhower without creating events</div>
-        <div class="atalho-url">Start from: https://tasks.google.com/tasks/</div>
-        <div class="atalho-prompt" onclick="copyText(this)">Ativa tdah-productivity-manager.
-Lê minhas tarefas do Google Tasks na página atual.
-Classifica cada uma na Matriz de Eisenhower.
-Pergunta meu nível de energia atual e indica qual fazer primeiro.
-Não cria eventos no Calendar — só prioriza.</div>
-      </div>
-
-      <div class="atalho">
-        <div class="atalho-cmd">/reorganiza</div>
-        <div class="atalho-desc pt-only">Re-planning para horas restantes</div>
-        <div class="atalho-desc en-only">Re-planning for remaining hours</div>
-        <div class="atalho-url">Start from: https://tasks.google.com/tasks/</div>
-        <div class="atalho-prompt" onclick="copyText(this)">Meu dia desandou. Ativa tdah-productivity-manager.
-Lê minhas tarefas do Google Tasks na página atual.
-Pergunta o que já foi feito hoje e qual o horário atual.
-Monta novo plano para as horas restantes considerando minha energia agora.
-Confirma antes de atualizar o Calendar.</div>
-      </div>
-
-      <div class="atalho">
-        <div class="atalho-cmd">/quick-win</div>
-        <div class="atalho-desc pt-only">Tarefa mais rápida para gerar momentum</div>
-        <div class="atalho-desc en-only">Fastest task to build momentum</div>
-        <div class="atalho-url">Start from: https://tasks.google.com/tasks/</div>
-        <div class="atalho-prompt" onclick="copyText(this)">Ativa tdah-productivity-manager.
-Lê minhas tarefas do Google Tasks na página atual.
-Identifica a tarefa mais rápida (menos de 30min) que posso completar agora para gerar momentum.
-Apresenta só essa tarefa com o escopo exato do que fazer.</div>
+      <div class="atalho" style="border-color:#052e16; background:#021a0d">
+        <div class="atalho-desc pt-only" style="color:#4ade80">✓ O Claude navega no Tasks, raciocina (Eisenhower + energia) e cria os blocos — tudo na mesma conversa, sem copiar/colar nada.</div>
+        <div class="atalho-desc en-only" style="color:#4ade80">✓ Claude navigates Tasks, reasons (Eisenhower + energy) and creates blocks — all in the same conversation, no copy/paste needed.</div>
       </div>
     </div>
 
