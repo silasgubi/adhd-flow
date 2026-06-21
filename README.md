@@ -4,7 +4,7 @@
 
 **PT:** Um PWA de produtividade diária para TDAH, integrando Google Keep, Tasks, Calendar e o Claude.
 
-**Demo:** [https://silasgubi.github.io/adhd-flow/](https://SEU-USUARIO.github.io/adhd-flow/)
+**Demo:** [https://silasgubi.github.io/adhd-flow/](https://silasgubi.github.io/adhd-flow/)
 
 ---
 
